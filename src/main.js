@@ -21,7 +21,10 @@ import {
   Dialog,
   Popup,
   Picker,
-  DatetimePicker
+  DatetimePicker,
+  Tab,
+  Tabs,
+  Icon
 } from 'vant'
 
 const plugins = [
@@ -41,7 +44,10 @@ const plugins = [
   Dialog,
   Popup,
   Picker,
-  DatetimePicker
+  DatetimePicker,
+  Tab,
+  Tabs,
+  Icon
 ]
 import '@/assets/css/global.less'
 plugins.forEach(plugin => {

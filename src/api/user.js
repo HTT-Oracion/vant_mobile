@@ -12,6 +12,10 @@ export const getUserApi = () => {
 export const getUserInfoApi = () => {
   return api('get', '/app/v1_0/user/profile')
 }
+
+export const getUserChannel = () => {
+  return api('get', '/app/v1_0/user/channels')
+}
 export const updateUserApi = data => {
   return api('patch', '/app/v1_0/user/profile', data)
 }
