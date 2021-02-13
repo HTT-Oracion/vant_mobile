@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">home</div>
+  <div class="user-profile">用户信息页</div>
 </template>
 
 <script>
