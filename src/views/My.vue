@@ -1,7 +1,7 @@
 <template>
   <div class="my-page">
     <!-- 已登录 -->
-    <van-cell-group class="my-info" v-if="user">
+    <van-cell-group v-if="user" class="my-info">
       <van-cell class="base-info" :border="false" center>
         <van-image
           class="avatar"
@@ -43,7 +43,21 @@
       </van-grid>
     </van-cell-group>
     <!-- 未登录 -->
-
+    <div v-else class="not-login">
+      <div
+        @click="
+          $router.push({
+            name: 'login',
+            query: {
+              redirect: '/my'
+            }
+          })
+        "
+      >
+        <img class="mobile" src="../assets/img/mobile.png" alt="" />
+      </div>
+      <div class="text">登录 / 注册</div>
+    </div>
     <van-grid class="nav-grid mb-4" :column-num="2">
       <van-grid-item
         class="nav-grid-item"
@@ -84,8 +98,13 @@ export default {
       const { data } = await getUserApi()
       this.currentUser = data.data
     },
-    logout() {
-      
+    logout () {
+      this.$dialog.confirm({
+        title: '退出提示',
+        message: '确认退出吗？'
+      }).then(() => {
+        this.$store.commit('SET_USER', null)
+      }).catch(() => { })
     }
   },
   computed: {
@@ -157,6 +176,21 @@ export default {
     }
   }
   .not-login {
+    height: 180px;
+    background: url('../assets/img/banner.png') no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .mobile {
+      width: 66px;
+      height: 66px;
+    }
+    .text {
+      font-size: 14px;
+      color: #fff;
+    }
   }
   /deep/ .nav-grid {
     .nav-grid-item {

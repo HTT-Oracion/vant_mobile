@@ -17,7 +17,11 @@ import {
   TabbarItem,
   Image as VanImage,
   Grid,
-  GridItem
+  GridItem,
+  Dialog,
+  Popup,
+  Picker,
+  DatetimePicker
 } from 'vant'
 
 const plugins = [
@@ -33,7 +37,11 @@ const plugins = [
   TabbarItem,
   VanImage,
   Grid,
-  GridItem
+  GridItem,
+  Dialog,
+  Popup,
+  Picker,
+  DatetimePicker
 ]
 import '@/assets/css/global.less'
 plugins.forEach(plugin => {
@@ -41,6 +49,7 @@ plugins.forEach(plugin => {
 })
 Vue.config.productionTip = false
 Vue.prototype.$toast = Toast
+Vue.prototype.$dialog = Dialog
 new Vue({
   router,
   store,
