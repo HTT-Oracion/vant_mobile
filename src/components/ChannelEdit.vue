@@ -17,7 +17,7 @@
         class="grid-item"
         :class="{ active: index === active }"
         :icon="isEdit && index !== 0 ? 'clear' : ''"
-        v-for="(channel, index) in userChannels"
+        v-for="(channel, index) in realChannels"
         :key="index"
         :text="channel.name"
         @click="channelClick(channel, index)"
@@ -58,6 +58,7 @@ export default {
   data () {
     return {
       isEdit: false,
+      realChannels: this.userChannels.slice(),
       allChannels: []
     }
   },
@@ -65,7 +66,7 @@ export default {
     ...mapState(['user']),
     recChannels () {
       return this.allChannels.filter(channel => {
-        return !this.userChannels.find(userChannel => {
+        return !this.realChannels.find(userChannel => {
           return userChannel.id === channel.id
         })
       })
@@ -73,6 +74,13 @@ export default {
   },
   created () {
     this.getAllChannels()
+    console.log('real', this.realChannels);
+  },
+  watch: {
+    realChannels (newVal) {
+      this.$emit('update-channel', newVal)
+      console.log(newVal);
+    }
   },
   methods: {
     async getAllChannels () {
@@ -90,7 +98,7 @@ export default {
       if (index <= this.active) {
         this.$emit('update-active', this.active - 1)
       }
-      this.userChannels.splice(index, 1)
+      this.realChannels.splice(index, 1)
       if (this.user) {
         await deleteChannelApi(channel.id)
       } else {
@@ -103,7 +111,7 @@ export default {
     },
     async add (channel) {
       if (!this.isEdit) return
-      this.userChannels.push(channel)
+      this.realChannels.push(channel)
       if (this.user) {
         await addChannelApi({
           channels: [
@@ -111,7 +119,7 @@ export default {
           ]
         })
       } else {
-        setItem('userChannel', this.userChannels)
+        setItem('userChannel', this.realChannels)
       }
     }
   }

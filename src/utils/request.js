@@ -16,6 +16,7 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(config => {
+  // console.log(config);
   const user = store.state.user
   if (user) {
     config.headers.Authorization = `Bearer ${user}`

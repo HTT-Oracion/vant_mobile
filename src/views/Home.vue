@@ -19,10 +19,11 @@
         :key="channel.id"
         :title="channel.name"
       >
+        <article-list :channel="channel" />
       </van-tab>
       <div class="wap-nav-placeholder" slot="nav-right"></div>
-      <div class="wap-nav-wrap" slot="nav-right">
-        <van-icon name="wap-nav" @click="editChannel = true" />
+      <div class="wap-nav-wrap" slot="nav-right" @click="editChannel = true">
+        <van-icon name="wap-nav" />
       </div>
     </van-tabs>
     <van-popup
@@ -37,6 +38,7 @@
       <channel-edit
         :userChannels="channelList"
         :active="active"
+        @update-channel="channelList = $event"
         @close="editChannel = false"
         @update-active="active = $event"
       ></channel-edit>
@@ -46,13 +48,15 @@
 
 <script>
 import ChannelEdit from '@/components/ChannelEdit'
+import ArticleList from '@/components/ArticleList'
 import { getUserChannel } from '@/api/user'
 import { mapState } from 'vuex'
 import { getItem } from '@/utils/storage'
 export default {
   name: 'Home',
   components: {
-    ChannelEdit
+    ChannelEdit,
+    ArticleList
   },
   data () {
     return {
@@ -70,6 +74,9 @@ export default {
   watch: {
     user () {
       this.active = 0
+    },
+    channelList (newval) {
+      console.log('userchannel', newval);
     }
   },
   methods: {
@@ -112,13 +119,15 @@ export default {
     }
   }
   .channel-tabs {
+    position: fixed;
     /deep/ .van-tab {
+      padding: 2px 15px;
       border-right: 1px solid #edeff3;
       border-bottom: 1px solid #edeff3;
     }
     /deep/ .van-tabs__line {
       bottom: 20px;
-      width: 15px;
+      width: 15px !important;
       height: 3px;
       background-color: #5babfb;
     }

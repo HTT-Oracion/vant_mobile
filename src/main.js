@@ -24,7 +24,9 @@ import {
   DatetimePicker,
   Tab,
   Tabs,
-  Icon
+  Icon,
+  PullRefresh,
+  List
 } from 'vant'
 
 const plugins = [
@@ -47,7 +49,9 @@ const plugins = [
   DatetimePicker,
   Tab,
   Tabs,
-  Icon
+  Icon,
+  PullRefresh,
+  List
 ]
 import '@/assets/css/global.less'
 plugins.forEach(plugin => {
