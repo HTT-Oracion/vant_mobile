@@ -1,13 +1,11 @@
 <template>
   <div class="article-container">
-    <!-- 导航栏 -->
     <van-nav-bar
       class="app-nav-bar"
       title="文章详情"
       left-arrow
       @click-left="$router.back()"
     />
-    <!-- /导航栏 -->
 
     <div class="article-wrap">
       <h1 class="title">{{ article.title }}</h1>
@@ -39,17 +37,15 @@
         v-html="article.content"
         ref="article-content"
       ></div>
-      <!-- 文章评论列表 -->
+
       <comment-list
         :source="articleId"
         :list="commentList"
         @update-total-count="totalCommentCount = $event"
         @reply-click="onReplyClick"
       />
-      <!-- /文章评论列表 -->
     </div>
 
-    <!-- 底部区域 -->
     <div class="article-bottom">
       <van-button
         class="comment-btn"
@@ -72,17 +68,12 @@
       />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
-    <!-- /底部区域 -->
 
-    <!-- 发布评论 -->
     <van-popup v-model="isPostShow" position="bottom">
       <post-comment :target="articleId" @post-success="onPostSuccess" />
     </van-popup>
-    <!-- /发布评论 -->
 
-    <!-- 评论回复 -->
     <van-popup v-model="isReplyShow" position="bottom">
-      <!-- 这里使用 v-if 的目的是让组件随着弹出层的显示进行渲染和销毁，防止加载过的组件不重新渲染导致数据不会重新加载的问题 -->
       <comment-reply
         v-if="isReplyShow"
         :comment="replyComment"
@@ -90,7 +81,6 @@
         @close="isReplyShow = false"
       />
     </van-popup>
-    <!-- /评论回复 -->
   </div>
 </template>
 
@@ -124,14 +114,14 @@ export default {
   },
   data () {
     return {
-      article: {}, // 文章数据对象
-      isFollowLoading: false, // 关注用户按钮的 loading 状态
-      isCollectLoading: false, // 收藏的 loading 状态
-      isPostShow: false, // 控制发布评论的显示状态
-      commentList: [], // 文章评论列表
-      totalCommentCount: 0, // 评论总数据量
-      isReplyShow: false, // 控制回复的显示状态
-      replyComment: {} // 当前回复评论对象
+      article: {},
+      isFollowLoading: false,
+      isCollectLoading: false,
+      isPostShow: false,
+      commentList: [],
+      totalCommentCount: 0,
+      isReplyShow: false,
+      replyComment: {}
     }
   },
   computed: {},
@@ -151,17 +141,14 @@ export default {
 
     handlePerviewImage () {
       const articleContent = this.$refs['article-content']
-
       const imgs = articleContent.querySelectorAll('img')
-
-      const imgPaths = [] // 收集所有的图片路径
-
+      const imgPaths = []
       imgs.forEach((img, index) => {
         imgPaths.push(img.src)
         img.onclick = function () {
           ImagePreview({
-            images: imgPaths, // 预览图片路径列表
-            startPosition: index // 起始位置
+            images: imgPaths,
+            startPosition: index
           })
         }
       })
@@ -181,7 +168,7 @@ export default {
     async onCollect () {
       this.$toast.loading({
         message: '操作中...',
-        forbidClick: true // 禁止背景点击
+        forbidClick: true
       })
       if (this.article.is_collected) {
         await deleteCollect(this.articleId)
@@ -195,7 +182,7 @@ export default {
     async onLike () {
       this.$toast.loading({
         message: '操作中...',
-        forbidClick: true // 禁止背景点击
+        forbidClick: true
       })
       if (this.article.attitude === 1) {
         await deleteLike(this.articleId)
@@ -216,8 +203,6 @@ export default {
     onReplyClick (comment) {
       console.log('onReplyClick', comment)
       this.replyComment = comment
-
-      // 展示回复内容
       this.isReplyShow = true
     }
   }

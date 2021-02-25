@@ -4,6 +4,9 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import {
   Button,
   NavBar,
@@ -26,7 +29,8 @@ import {
   Tabs,
   Icon,
   PullRefresh,
-  List
+  List,
+  Search
 } from 'vant'
 
 const plugins = [
@@ -51,12 +55,25 @@ const plugins = [
   Tabs,
   Icon,
   PullRefresh,
-  List
+  List,
+  Search
 ]
 import '@/assets/css/global.less'
 plugins.forEach(plugin => {
   Vue.use(plugin)
 })
+
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
+
+
+Vue.filter('relativeTime', value => {
+  return dayjs(value).from(dayjs())
+})
+Vue.filter('datetime', (value, format = 'YYYY-MM-DD HH:mm:ss') => {
+  return dayjs(value).format(format)
+})
+
 Vue.config.productionTip = false
 Vue.prototype.$toast = Toast
 Vue.prototype.$dialog = Dialog
